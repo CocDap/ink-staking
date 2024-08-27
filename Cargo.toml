@@ -1,5 +1,5 @@
 [workspace]
-members = ["*"]
+members = ["psp22", "staking"]
 exclude = [".cargo", "target"]
 resolver = "2"
 
