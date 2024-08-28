@@ -7,6 +7,7 @@ publish = false
 
 [dependencies]
 ink = { workspace = true }
+psp22 = { path = "../psp22", default-features = false, features = ["ink-as-dependency"]}
 
 [dev-dependencies]
 ink_e2e = { workspace = true }
@@ -18,6 +19,7 @@ path = "lib.rs"
 default = ["std"]
 std = [
     "ink/std",
+    "psp22/std",
 ]
 ink-as-dependency = []
 e2e-tests = []
