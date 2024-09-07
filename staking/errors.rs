@@ -8,7 +8,10 @@ pub enum StakingError {
     OverFlow,
     NotApproved,
     TransferFail,
-    LowLiquidity
+    LowLiquidity,
+    StakeNotFound,
+    LockinPeriodNotEnded,
+
 
     
 }

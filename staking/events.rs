@@ -16,3 +16,11 @@ pub struct Unstake {
     pub user: AccountId,
     pub amount: u128
 }
+
+
+#[ink::event]
+pub struct Claim {
+    #[ink(topic)]
+    pub user: AccountId,
+    pub reward: u128
+}
