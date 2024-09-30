@@ -74,14 +74,11 @@ impl StakingData {
         self.total_rewards
     }
 
-
-
     pub fn get_user_reward(&self, user: AccountId, current_time: Timestamp) -> u128 {
         let user_stake_data = self.get_user_data_by_account(user);
 
         self.calculate_reward(user, user_stake_data.amount, current_time)
     }
-
 
     pub fn is_staked(&self, user: AccountId) -> bool {
         self.has_staked.get(user).unwrap()
@@ -99,12 +96,16 @@ impl StakingData {
         self.stakers.clone()
     }
 
+    // stake tokens functions 
     pub fn internal_stake(
         &mut self,
         user: AccountId,
         amount: u128,
         current_time: Timestamp,
     ) -> Result<Vec<StakingEvent>, StakingError> {
+
+        assert!(amount > 0, "amount cannot be 0");
+
         // Update total staked
         let new_total_staked = self
             .total_staked
@@ -112,14 +113,18 @@ impl StakingData {
             .ok_or(StakingError::OverFlow)?;
         self.total_staked = new_total_staked;
 
-        // Update user stake
+        // get get user stake data 
         let mut user_stake_data = self.get_user_data_by_account(user);
 
         let current_balance = user_stake_data.amount;
-        let new_balance = current_balance.checked_add(amount).unwrap();
+        let new_balance = current_balance
+            .checked_add(amount)
+            .ok_or(StakingError::OverFlow)?;
         user_stake_data.amount = new_balance;
         user_stake_data.deposit_time = current_time;
-        user_stake_data.unlock_time = current_time.checked_add(self.duration_time).unwrap();
+        user_stake_data.unlock_time = current_time
+            .checked_add(self.duration_time)
+            .ok_or(StakingError::OverFlow)?;
 
         let reward = self.calculate_reward(user, amount, current_time);
 

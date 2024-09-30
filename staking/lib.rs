@@ -37,7 +37,6 @@ pub mod staking {
         #[ink(message)]
         pub fn stake(&mut self, amount: u128) -> Result<(), StakingError> {
             let caller = self.env().caller();
-            assert!(amount > 0, "amount cannot be 0");
 
             self.token_contract
                 .transfer_from(
