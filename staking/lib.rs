@@ -21,16 +21,14 @@ pub mod staking {
     pub struct Staking {
         data: StakingData,
         token_contract: ink::contract_ref!(PSP22),
-        vault: AccountId,
     }
 
     impl Staking {
         #[ink(constructor)]
-        pub fn new(owner: AccountId, token_contract: AccountId, vault: AccountId) -> Self {
+        pub fn new(owner: AccountId, token_contract: AccountId) -> Self {
             Self {
                 data: StakingData::new(owner),
                 token_contract: token_contract.into(),
-                vault,
             }
         }
 
